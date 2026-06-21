@@ -46,7 +46,7 @@ fun AppNavGraph(navController: NavHostController) {
             val tool = ToolType.fromKey(toolKey)
             ToolEntryScreen(
                 toolType = tool,
-                onChooseClick = {
+                onFilesSelected = {
                     when (tool) {
                         ToolType.COMPRESS -> navController.navigate(Route.COMPRESS_OPTIONS)
                         ToolType.PDF_TO_JPG, ToolType.JPG_TO_PDF ->

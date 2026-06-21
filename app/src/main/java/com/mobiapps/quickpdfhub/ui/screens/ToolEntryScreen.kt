@@ -1,5 +1,8 @@
 package com.mobiapps.quickpdfhub.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -8,27 +11,65 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.data.mockRecentFiles
 import com.mobiapps.quickpdfhub.navigation.ToolType
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.components.RecentFileRow
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 
+private val PDF_MIME = arrayOf("application/pdf")
+private val IMAGE_MIME = arrayOf("image/*")
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToolEntryScreen(
     toolType: ToolType,
-    onChooseClick: () -> Unit,
+    onFilesSelected: () -> Unit,
     onSettingsClick: () -> Unit,
     onViewAllRecentClick: () -> Unit,
 ) {
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    // Single-file picker (all tools except Merge)
+    val singlePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri: Uri? ->
+        if (uri != null) {
+            PdfWorkSession.setInputs(listOf(uri))
+            onFilesSelected()
+        }
+    }
+
+    // Multi-file picker (Merge only)
+    val multiPicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenMultipleDocuments(),
+    ) { uris: List<Uri> ->
+        when {
+            uris.isEmpty() -> { /* user cancelled */ }
+            uris.size < 2 -> errorMessage = "Merge requires at least 2 PDF files."
+            else -> {
+                PdfWorkSession.setInputs(uris)
+                onFilesSelected()
+            }
+        }
+    }
+
+    val mimeTypes = if (toolType == ToolType.JPG_TO_PDF) IMAGE_MIME else PDF_MIME
+
+    fun launchPicker() {
+        errorMessage = null
+        if (toolType == ToolType.MERGE) multiPicker.launch(mimeTypes)
+        else singlePicker.launch(mimeTypes)
+    }
+
     Scaffold(
         topBar = {
             QuickPdfTopBar(
@@ -85,10 +126,20 @@ fun ToolEntryScreen(
                         textAlign = TextAlign.Center,
                     )
 
+                    if (errorMessage != null) {
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = errorMessage!!,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error,
+                            textAlign = TextAlign.Center,
+                        )
+                    }
+
                     Spacer(Modifier.height(24.dp))
 
                     Button(
-                        onClick = onChooseClick,
+                        onClick = ::launchPicker,
                         shape = RoundedCornerShape(28.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = BrandTeal),
                         modifier = Modifier
@@ -105,7 +156,7 @@ fun ToolEntryScreen(
 
             Spacer(Modifier.height(28.dp))
 
-            // Recent files section
+            // Recent files
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,

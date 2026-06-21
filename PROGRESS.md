@@ -1,6 +1,6 @@
 # QuickPDF Hub — Build Progress
 
-## Status: Phase 1 complete ✅ | Phase 2 not started
+## Status: Phase 1 complete ✅ | Phase 2 in progress 🔧
 
 ---
 
@@ -156,20 +156,68 @@ Any screen gear icon ──► Settings
 
 ---
 
-## Phase 2 — Functionality Roadmap (not started)
+## Phase 2 — Implementation Plan (7 features, one at a time)
 
-| # | Feature | Library / API |
-|---|---------|---------------|
-| 1 | File picker | Storage Access Framework (`ActivityResultContracts.OpenDocument`) |
-| 2 | Merge PDF | PdfBox-Android (Apache 2.0) |
-| 3 | Split / Reorder / Delete pages | PdfBox-Android |
-| 4 | Compress | Bitmap re-compression matching 3 quality presets |
-| 5 | PDF → JPG / JPG → PDF | PdfRenderer (system) + BitmapFactory |
-| 6 | Recent files persistence | Room |
-| 7 | Share | `Intent.ACTION_SEND` via Android share sheet |
-| 8 | Settings persistence | DataStore Preferences |
-| 9 | Storage permission flow | `ActivityResultContracts.RequestPermission` |
-| 10 | Error handling | Real states for corrupted / unsupported / oversized files |
+### Shared infrastructure (built once, used by all features)
+
+| File | Purpose |
+|------|---------|
+| `data/PdfWorkSession.kt` | In-memory singleton holding current URIs across screens |
+| `domain/PdfWorker.kt` | Coroutine-based processor; runs on `IO` dispatcher; emits `WorkResult` |
+| `domain/WorkResult.kt` | `sealed class`: `Success(outputUri, sizeBefore, sizeAfter)` / `Error(message)` |
+
+---
+
+### Feature 1 — File Picker ✅ Done
+**Status:** Complete  
+**Approach:** `rememberLauncherForActivityResult` with `OpenDocument` (single) or `OpenMultipleDocuments` (merge). On result, URIs stored in `PdfWorkSession`, then navigate forward. No library needed — pure SAF.  
+**Files changed:** `ToolEntryScreen.kt`, `data/PdfWorkSession.kt`  
+**MIME types:** `application/pdf` for PDF tools, `image/*` for JPG→PDF
+
+---
+
+### Feature 2 — Compress PDF ⬜ Pending
+**Approach:** `PdfRenderer` (system API, no library) renders each page to `Bitmap`, re-encoded as JPEG at preset quality (Low=90, Medium=65, High=35), packed back into `PdfDocument`. Runs in `PdfWorker` coroutine.  
+**Files:** `domain/CompressPdf.kt`, `ui/screens/CompressOptionsScreen.kt` (wire ViewModel), `ProcessingScreen.kt` (real progress), `ResultScreen.kt` (real before/after sizes)
+
+---
+
+### Feature 3 — PDF → JPG ⬜ Pending
+**Approach:** Same `PdfRenderer` bitmap loop as Compress, but saves each page as a numbered `.jpg` to the app's cache dir. Result screen shows image count instead of before/after size.  
+**Files:** `domain/PdfToJpg.kt`, wiring in `ProcessingScreen` + `ResultScreen`
+
+---
+
+### Feature 4 — JPG → PDF ⬜ Pending
+**Approach:** `BitmapFactory.decodeStream` each selected image URI, draw onto `PdfDocument.Page` canvas sized to the bitmap, write to output file.  
+**Files:** `domain/JpgToPdf.kt`, wiring in `ProcessingScreen` + `ResultScreen`
+
+---
+
+### Feature 5 — Merge PDF ⬜ Pending
+**Approach:** Add `pdfbox-android` (Apache 2.0). `PDDocument.load()` each input URI, iterate pages, append to a new `PDDocument`, save. Multiple-file picker already wired from Feature 1.  
+**Dependency:** `com.tom-roush:pdfbox-android:2.0.27.0`  
+**Files:** `domain/MergePdf.kt`, wiring in `ProcessingScreen` + `ResultScreen`
+
+---
+
+### Feature 6 — Split / Delete / Reorder Pages ⬜ Pending
+**Approach:** All three share the same `PDDocument` page-level API from PdfBox (Feature 5 dependency already present). Split: extract page index ranges into separate files. Delete: write all pages except deselected ones. Reorder: write pages in the order from `PageThumbnailScreen` drag state.  
+**Files:** `domain/SplitPdf.kt`, `domain/DeletePages.kt`, `domain/ReorderPages.kt`, `PageThumbnailScreen.kt` (real drag-to-reorder)
+
+---
+
+### Feature 7 — Recent Files (Room) ⬜ Pending
+**Approach:** `RecentFile` Room entity + DAO. Insert a row after every `WorkResult.Success`. Query on Home (last 4) and RecentFilesScreen (all, grouped by date). Replaces `MockData` everywhere.  
+**Dependencies:** `room-runtime`, `room-ktx`, `room-compiler` (kapt/ksp)  
+**Files:** `data/db/AppDatabase.kt`, `data/db/RecentFileDao.kt`, `data/db/RecentFileEntity.kt`, `data/RecentFileRepository.kt`
+
+---
+
+### Post-feature work (after all 7 are reviewed)
+- **Share** — `Intent.ACTION_SEND` on Result screen Share button
+- **Settings persistence** — DataStore for dark mode + default save path
+- **Error handling** — real `WorkResult.Error` states surfaced to `ErrorScreen`
 
 ---
 
