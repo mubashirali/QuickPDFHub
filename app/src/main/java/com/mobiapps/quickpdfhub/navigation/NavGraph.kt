@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.ui.screens.*
 
 @Composable
@@ -48,10 +49,12 @@ fun AppNavGraph(navController: NavHostController) {
                 toolType = tool,
                 onFilesSelected = {
                     when (tool) {
-                        ToolType.COMPRESS -> navController.navigate(Route.COMPRESS_OPTIONS)
-                        ToolType.PDF_TO_JPG, ToolType.JPG_TO_PDF ->
+                        ToolType.COMPRESS ->
+                            navController.navigate(Route.COMPRESS_OPTIONS)
+                        ToolType.PDF_TO_JPG, ToolType.JPG_TO_PDF, ToolType.MERGE ->
                             navController.navigate(Route.processing(tool.name.lowercase()))
-                        else -> navController.navigate(Route.pageThumbnail(tool.name.lowercase()))
+                        else -> // SPLIT, DELETE, REORDER
+                            navController.navigate(Route.pageThumbnail(tool.name.lowercase()))
                     }
                 },
                 onSettingsClick = { navController.navigate(Route.SETTINGS) },
@@ -74,25 +77,25 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
-        composable(Route.COMPRESS_OPTIONS) {
-            CompressOptionsScreen(
-                onCompressClick = {
-                    navController.navigate(Route.processing(ToolType.COMPRESS.name.lowercase()))
-                },
-                onSettingsClick = { navController.navigate(Route.SETTINGS) },
-            )
-        }
-
         composable(
             route = Route.PROCESSING,
             arguments = listOf(navArgument("toolType") { type = NavType.StringType }),
         ) { backStack ->
             val toolKey = backStack.arguments?.getString("toolType") ?: "merge"
             ProcessingScreen(
+                toolType = toolKey,
                 onCancel = { navController.popBackStack() },
                 onSettingsClick = { navController.navigate(Route.SETTINGS) },
                 onFinished = {
                     navController.navigate(Route.result(toolKey)) {
+                        // Pop everything back to HOME so the system back button
+                        // and the in-app home arrow both land on the home screen.
+                        popUpTo(Route.HOME) { inclusive = false }
+                    }
+                },
+                onError = { message ->
+                    PdfWorkSession.lastErrorMessage = message
+                    navController.navigate(Route.ERROR) {
                         popUpTo(Route.processing(toolKey)) { inclusive = true }
                     }
                 },
@@ -103,11 +106,22 @@ fun AppNavGraph(navController: NavHostController) {
             route = Route.RESULT,
             arguments = listOf(navArgument("toolType") { type = NavType.StringType }),
         ) {
+            val goHome = {
+                navController.navigate(Route.HOME) {
+                    popUpTo(Route.HOME) { inclusive = false }
+                }
+            }
             ResultScreen(
-                onDoAnotherClick = {
-                    navController.navigate(Route.HOME) {
-                        popUpTo(Route.HOME) { inclusive = false }
-                    }
+                onGoHome = goHome,
+                onDoAnotherClick = goHome,
+                onSettingsClick = { navController.navigate(Route.SETTINGS) },
+            )
+        }
+
+        composable(Route.COMPRESS_OPTIONS) {
+            CompressOptionsScreen(
+                onContinueClick = {
+                    navController.navigate(Route.processing("compress"))
                 },
                 onSettingsClick = { navController.navigate(Route.SETTINGS) },
             )
@@ -121,7 +135,7 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(Route.SETTINGS) {
             SettingsScreen(
-                onSettingsClick = {},
+                onBack = { navController.popBackStack() },
             )
         }
 
@@ -134,6 +148,8 @@ fun AppNavGraph(navController: NavHostController) {
 
         composable(Route.ERROR) {
             ErrorScreen(
+                body = PdfWorkSession.lastErrorMessage
+                    ?: "It may be corrupted or an unsupported format.",
                 onTryAgain = { navController.popBackStack() },
                 onSettingsClick = { navController.navigate(Route.SETTINGS) },
             )

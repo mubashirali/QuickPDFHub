@@ -11,24 +11,35 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProcessingScreen(
+    toolType: String,
     onCancel: () -> Unit,
     onSettingsClick: () -> Unit,
     onFinished: () -> Unit,
+    onError: (String) -> Unit,
 ) {
-    // Auto-advance to result after fake delay (Phase 1 prototype behaviour)
-    LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(2500)
-        onFinished()
+    val viewModel = viewModel<ProcessingViewModel>()
+    val state by viewModel.state.collectAsState()
+
+    LaunchedEffect(toolType) {
+        viewModel.start(toolType)
+    }
+
+    LaunchedEffect(state) {
+        when (val s = state) {
+            is ProcessingViewModel.State.Done -> onFinished()
+            is ProcessingViewModel.State.Failed -> onError(s.message)
+            else -> Unit
+        }
     }
 
     Scaffold(
@@ -47,7 +58,6 @@ fun ProcessingScreen(
             contentAlignment = Alignment.Center,
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                // Spinner with icon in centre
                 Box(contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(96.dp),

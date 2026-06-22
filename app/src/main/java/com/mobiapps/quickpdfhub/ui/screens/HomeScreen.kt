@@ -16,15 +16,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.data.RecentFile
-import com.mobiapps.quickpdfhub.data.mockRecentFiles
-import com.mobiapps.quickpdfhub.navigation.Route
+import com.mobiapps.quickpdfhub.domain.openRecentFile
 import com.mobiapps.quickpdfhub.navigation.ToolType
-import com.mobiapps.quickpdfhub.ui.components.AppIconBadge
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.components.RecentFileCard
 import com.mobiapps.quickpdfhub.ui.theme.BannerBgLight
@@ -56,8 +56,14 @@ fun HomeScreen(
     onViewAllRecentClick: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     var moreToolsExpanded by remember { mutableStateOf(true) }
-    val recentFiles = mockRecentFiles.take(4)
+    val recentFiles = PdfWorkSession.recentEntries.take(4)
+
+    // loadFromRoom is guarded by roomLoaded — safe to call from multiple screens; only the first call loads data.
+    LaunchedEffect(Unit) {
+        PdfWorkSession.loadFromRoom(context)
+    }
 
     Scaffold(
         topBar = {
@@ -174,7 +180,10 @@ fun HomeScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     recentFiles.forEach { file ->
-                        RecentFileCard(file = file)
+                        RecentFileCard(
+                            file = file,
+                            onClick = { openRecentFile(context, file.outputUri, file.name, isImage = file.operation == RecentFile.OP_PDF_TO_JPG) },
+                        )
                     }
                 }
             }

@@ -5,7 +5,6 @@ object Route {
     const val HOME = "home"
     const val TOOL_ENTRY = "tool_entry/{toolType}"
     const val PAGE_THUMBNAIL = "page_thumbnail/{toolType}"
-    const val COMPRESS_OPTIONS = "compress_options"
     const val PROCESSING = "processing/{toolType}"
     const val RESULT = "result/{toolType}"
     const val RECENT_FILES = "recent_files"
@@ -13,6 +12,7 @@ object Route {
     const val UPGRADE = "upgrade"
     const val PERMISSION_RATIONALE = "permission_rationale"
     const val ERROR = "error"
+    const val COMPRESS_OPTIONS = "compress_options"
 
     fun toolEntry(toolType: String) = "tool_entry/$toolType"
     fun pageThumbnail(toolType: String) = "page_thumbnail/$toolType"

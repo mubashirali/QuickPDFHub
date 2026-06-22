@@ -5,12 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
+import com.mobiapps.quickpdfhub.data.ThemeManager
 import com.mobiapps.quickpdfhub.navigation.AppNavGraph
 import com.mobiapps.quickpdfhub.ui.theme.QuickPDFHubTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ThemeManager.init(this)
         enableEdgeToEdge()
         setContent {
             QuickPDFHubTheme {

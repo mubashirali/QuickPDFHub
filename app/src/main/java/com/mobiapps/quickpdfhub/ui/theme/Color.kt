@@ -35,6 +35,10 @@ val OnErrorContainer = Color(0xFF8B0000)
 val PdfIconRed = Color(0xFFE53935)
 val PdfIconRedBg = Color(0xFFFCE8E8)
 
+// Image (JPG) icon
+val ImageIconBlue = Color(0xFF1E88E5)
+val ImageIconBlueBg = Color(0xFFE3F2FD)
+
 // Banner
 val BannerBgLight = Color(0xFFE8F5F3)
 val BannerTextLight = Color(0xFF2D7168)

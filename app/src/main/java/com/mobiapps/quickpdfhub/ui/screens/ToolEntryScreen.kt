@@ -19,7 +19,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
-import com.mobiapps.quickpdfhub.data.mockRecentFiles
 import com.mobiapps.quickpdfhub.navigation.ToolType
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.components.RecentFileRow
@@ -48,13 +47,14 @@ fun ToolEntryScreen(
         }
     }
 
-    // Multi-file picker (Merge only)
+    // Multi-file picker (Merge + JPG_TO_PDF)
     val multiPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments(),
     ) { uris: List<Uri> ->
         when {
             uris.isEmpty() -> { /* user cancelled */ }
-            uris.size < 2 -> errorMessage = "Merge requires at least 2 PDF files."
+            toolType == ToolType.MERGE && uris.size < 2 ->
+                errorMessage = "Merge requires at least 2 PDF files."
             else -> {
                 PdfWorkSession.setInputs(uris)
                 onFilesSelected()
@@ -66,7 +66,8 @@ fun ToolEntryScreen(
 
     fun launchPicker() {
         errorMessage = null
-        if (toolType == ToolType.MERGE) multiPicker.launch(mimeTypes)
+        if (toolType == ToolType.MERGE || toolType == ToolType.JPG_TO_PDF)
+            multiPicker.launch(mimeTypes)
         else singlePicker.launch(mimeTypes)
     }
 
@@ -173,9 +174,17 @@ fun ToolEntryScreen(
 
             Spacer(Modifier.height(8.dp))
 
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                mockRecentFiles.take(3).forEach { file ->
-                    RecentFileRow(file = file)
+            if (PdfWorkSession.recentEntries.isEmpty()) {
+                Text(
+                    text = "No recent files yet.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            } else {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PdfWorkSession.recentEntries.take(3).forEach { file ->
+                        RecentFileRow(file = file)
+                    }
                 }
             }
         }

@@ -5,28 +5,47 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Description
+import androidx.compose.material.icons.filled.Image
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mobiapps.quickpdfhub.data.RecentFile
+import com.mobiapps.quickpdfhub.ui.theme.ImageIconBlue
+import com.mobiapps.quickpdfhub.ui.theme.ImageIconBlueBg
 import com.mobiapps.quickpdfhub.ui.theme.PdfIconRed
 import com.mobiapps.quickpdfhub.ui.theme.PdfIconRedBg
+
+private fun RecentFile.isImageOutput(): Boolean =
+    operation == RecentFile.OP_PDF_TO_JPG ||
+    name.endsWith(".jpg", ignoreCase = true) ||
+    name.endsWith(".jpeg", ignoreCase = true)
 
 @Composable
 fun RecentFileRow(
     file: RecentFile,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
+    val isImage = file.isImageOutput()
+    val iconBg = if (isImage) ImageIconBlueBg else PdfIconRedBg
+    val iconTint = if (isImage) ImageIconBlue else PdfIconRed
+    val icon = if (isImage) Icons.Filled.Image else Icons.Filled.Description
+
     Surface(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().semantics { role = Role.Button },
         shape = RoundedCornerShape(12.dp),
         color = MaterialTheme.colorScheme.surface,
         tonalElevation = 1.dp,
         shadowElevation = 1.dp,
+        onClick = onClick ?: {},
+        enabled = onClick != null,
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
@@ -36,13 +55,13 @@ fun RecentFileRow(
                 modifier = Modifier
                     .size(44.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(PdfIconRedBg),
+                    .background(iconBg),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Description,
-                    contentDescription = null,
-                    tint = PdfIconRed,
+                    imageVector = icon,
+                    contentDescription = if (isImage) "Image file" else "PDF file",
+                    tint = iconTint,
                     modifier = Modifier.size(24.dp),
                 )
             }
@@ -77,13 +96,21 @@ fun RecentFileRow(
 fun RecentFileCard(
     file: RecentFile,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
+    val isImage = file.isImageOutput()
+    val iconBg = if (isImage) ImageIconBlueBg else PdfIconRedBg
+    val iconTint = if (isImage) ImageIconBlue else PdfIconRed
+    val icon = if (isImage) Icons.Filled.Image else Icons.Filled.Description
+
     Surface(
-        modifier = modifier.width(140.dp),
+        modifier = modifier.width(140.dp).semantics { role = Role.Button },
         shape = RoundedCornerShape(12.dp),
         color = MaterialTheme.colorScheme.surface,
         tonalElevation = 1.dp,
         shadowElevation = 1.dp,
+        onClick = onClick ?: {},
+        enabled = onClick != null,
     ) {
         Column(
             modifier = Modifier.padding(12.dp),
@@ -93,13 +120,13 @@ fun RecentFileCard(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(PdfIconRedBg),
+                    .background(iconBg),
                 contentAlignment = Alignment.Center,
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Description,
-                    contentDescription = null,
-                    tint = PdfIconRed,
+                    imageVector = icon,
+                    contentDescription = if (isImage) "Image file" else "PDF file",
+                    tint = iconTint,
                     modifier = Modifier.size(22.dp),
                 )
             }

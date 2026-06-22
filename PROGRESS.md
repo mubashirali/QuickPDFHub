@@ -1,6 +1,6 @@
 # QuickPDF Hub — Build Progress
 
-## Status: Phase 1 complete ✅ | Phase 2 in progress 🔧
+## Status: Phase 1 complete ✅ | Phase 2 in progress 🔧 (Feature 2 done)
 
 ---
 
@@ -74,7 +74,11 @@ app/src/main/java/com/mobiapps/quickpdfhub/
 │   ├── NavRoutes.kt                   # Route constants + ToolType enum
 │   └── NavGraph.kt                    # NavHost with all composable destinations
 ├── data/
-│   └── MockData.kt                    # Hardcoded mock files & page counts
+│   ├── MockData.kt                    # Hardcoded mock files & page counts
+│   └── PdfWorkSession.kt              # In-memory op state: inputUris, compressionQuality, lastResult
+├── domain/
+│   ├── WorkResult.kt                  # sealed class Success / Error + formatBytes()
+│   └── CompressPdf.kt                 # PdfRenderer → JPEG round-trip → PdfDocument
 └── ui/
     ├── theme/
     │   ├── Color.kt                   # All color tokens
@@ -176,9 +180,10 @@ Any screen gear icon ──► Settings
 
 ---
 
-### Feature 2 — Compress PDF ⬜ Pending
-**Approach:** `PdfRenderer` (system API, no library) renders each page to `Bitmap`, re-encoded as JPEG at preset quality (Low=90, Medium=65, High=35), packed back into `PdfDocument`. Runs in `PdfWorker` coroutine.  
-**Files:** `domain/CompressPdf.kt`, `ui/screens/CompressOptionsScreen.kt` (wire ViewModel), `ProcessingScreen.kt` (real progress), `ResultScreen.kt` (real before/after sizes)
+### Feature 2 — Compress PDF ✅ Done
+**Approach:** `PdfRenderer` renders each page to `Bitmap` at DPI scaled by quality (2.0× Low / 1.5× Medium / 1.0× High). JPEG round-trip at quality int 90/65/35 bakes lossy compression into the bitmap before packing into `PdfDocument`. `ProcessingViewModel` (AndroidViewModel) runs the work in `viewModelScope`, stores `WorkResult.Success` in `PdfWorkSession.lastResult`. `ResultScreen` reads real before/after byte counts and formats them with `formatBytes()`. Share and Open buttons wired to real FileProvider URI.  
+**Files:** `domain/WorkResult.kt`, `domain/CompressPdf.kt`, `ui/screens/ProcessingViewModel.kt`, `data/PdfWorkSession.kt` (compressionQuality + lastResult), `AndroidManifest.xml` (FileProvider), `res/xml/file_paths.xml`  
+**Judgment call:** Android's `PdfDocument.writeTo()` does not guarantee JPEG internal encoding; file size reduction mainly comes from the reduced-resolution bitmap + JPEG round-trip information loss. Lossless PDFs (pure vector/text) will see minimal size reduction — this is a system API limitation without PdfBox.
 
 ---
 
