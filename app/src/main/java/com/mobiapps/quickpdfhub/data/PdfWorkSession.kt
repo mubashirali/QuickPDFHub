@@ -18,7 +18,7 @@ object PdfWorkSession {
     var inputUris: List<Uri> = emptyList()
         private set
 
-    var compressionQuality: Int = 65
+    var compressionQuality: Int = 35
 
     var lastResult: WorkResult.Success? = null
     var lastErrorMessage: String? = null
@@ -91,7 +91,7 @@ object PdfWorkSession {
         inputUris = emptyList()
         outputUri = null
         lastResult = null
-        compressionQuality = 65
+        compressionQuality = 35
         splitAfterPage = 1
         pagesToDelete = emptyList()
         reorderedPageIndices = emptyList()

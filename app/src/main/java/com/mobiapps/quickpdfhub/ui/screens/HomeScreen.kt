@@ -55,6 +55,7 @@ fun HomeScreen(
     onToolClick: (ToolType) -> Unit,
     onViewAllRecentClick: () -> Unit,
     onSettingsClick: () -> Unit,
+    onSearchClick: () -> Unit = {},
 ) {
     val context = LocalContext.current
     var moreToolsExpanded by remember { mutableStateOf(true) }
@@ -69,6 +70,7 @@ fun HomeScreen(
         topBar = {
             QuickPdfTopBar(
                 title = "QuickPDF Hub",
+                onSearchClick = onSearchClick,
                 onSettingsClick = onSettingsClick,
             )
         },

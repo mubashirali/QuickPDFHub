@@ -30,7 +30,7 @@ fun CompressOptionsScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "QuickPDF",
+                title = "Compress PDF",
                 onSettingsClick = onSettingsClick,
             )
         },

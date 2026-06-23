@@ -31,10 +31,13 @@ fun AppNavGraph(navController: NavHostController) {
                     navController.navigate(Route.toolEntry(tool.name.lowercase()))
                 },
                 onViewAllRecentClick = {
-                    navController.navigate(Route.RECENT_FILES)
+                    navController.navigate(Route.recentFiles())
                 },
                 onSettingsClick = {
                     navController.navigate(Route.SETTINGS)
+                },
+                onSearchClick = {
+                    navController.navigate(Route.recentFiles(searchActive = true))
                 },
             )
         }
@@ -50,7 +53,7 @@ fun AppNavGraph(navController: NavHostController) {
                 onFilesSelected = {
                     when (tool) {
                         ToolType.COMPRESS ->
-                            navController.navigate(Route.COMPRESS_OPTIONS)
+                            navController.navigate(Route.processing(tool.name.lowercase()))
                         ToolType.PDF_TO_JPG, ToolType.JPG_TO_PDF, ToolType.MERGE ->
                             navController.navigate(Route.processing(tool.name.lowercase()))
                         else -> // SPLIT, DELETE, REORDER
@@ -58,7 +61,7 @@ fun AppNavGraph(navController: NavHostController) {
                     }
                 },
                 onSettingsClick = { navController.navigate(Route.SETTINGS) },
-                onViewAllRecentClick = { navController.navigate(Route.RECENT_FILES) },
+                onViewAllRecentClick = { navController.navigate(Route.recentFiles()) },
             )
         }
 
@@ -118,18 +121,17 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
-        composable(Route.COMPRESS_OPTIONS) {
-            CompressOptionsScreen(
-                onContinueClick = {
-                    navController.navigate(Route.processing("compress"))
-                },
-                onSettingsClick = { navController.navigate(Route.SETTINGS) },
-            )
-        }
-
-        composable(Route.RECENT_FILES) {
+        composable(
+            route = Route.RECENT_FILES,
+            arguments = listOf(navArgument("searchActive") {
+                type = NavType.BoolType
+                defaultValue = false
+            }),
+        ) { backStack ->
+            val openSearch = backStack.arguments?.getBoolean("searchActive") ?: false
             RecentFilesScreen(
                 onSettingsClick = { navController.navigate(Route.SETTINGS) },
+                initialSearchActive = openSearch,
             )
         }
 

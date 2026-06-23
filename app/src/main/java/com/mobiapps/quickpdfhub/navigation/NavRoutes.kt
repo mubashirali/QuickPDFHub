@@ -7,17 +7,17 @@ object Route {
     const val PAGE_THUMBNAIL = "page_thumbnail/{toolType}"
     const val PROCESSING = "processing/{toolType}"
     const val RESULT = "result/{toolType}"
-    const val RECENT_FILES = "recent_files"
+    const val RECENT_FILES = "recent_files?searchActive={searchActive}"
     const val SETTINGS = "settings"
     const val UPGRADE = "upgrade"
     const val PERMISSION_RATIONALE = "permission_rationale"
     const val ERROR = "error"
-    const val COMPRESS_OPTIONS = "compress_options"
 
     fun toolEntry(toolType: String) = "tool_entry/$toolType"
     fun pageThumbnail(toolType: String) = "page_thumbnail/$toolType"
     fun processing(toolType: String) = "processing/$toolType"
     fun result(toolType: String) = "result/$toolType"
+    fun recentFiles(searchActive: Boolean = false) = "recent_files?searchActive=$searchActive"
 }
 
 enum class ToolType(val label: String, val subtitle: String, val ctaLabel: String) {

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mobiapps.quickpdfhub.navigation.ToolType
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 
@@ -45,7 +46,7 @@ fun ProcessingScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "QuickPDF",
+                title = ToolType.fromKey(toolType).label,
                 onSettingsClick = onSettingsClick,
             )
         },

@@ -109,7 +109,7 @@ fun PageThumbnailScreen(
 
     Scaffold(
         topBar = {
-            QuickPdfTopBar(title = "QuickPDF", onSettingsClick = onSettingsClick)
+            QuickPdfTopBar(title = toolType.label, onSettingsClick = onSettingsClick)
         },
         bottomBar = {
             Surface(shadowElevation = 8.dp) {

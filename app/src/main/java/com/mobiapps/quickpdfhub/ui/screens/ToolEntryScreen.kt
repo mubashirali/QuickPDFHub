@@ -15,10 +15,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
+import com.mobiapps.quickpdfhub.data.RecentFile
+import com.mobiapps.quickpdfhub.domain.openRecentFile
 import com.mobiapps.quickpdfhub.navigation.ToolType
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.components.RecentFileRow
@@ -35,6 +38,7 @@ fun ToolEntryScreen(
     onSettingsClick: () -> Unit,
     onViewAllRecentClick: () -> Unit,
 ) {
+    val context = LocalContext.current
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     // Single-file picker (all tools except Merge)
@@ -74,7 +78,7 @@ fun ToolEntryScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "QuickPDF",
+                title = toolType.label,
                 onSettingsClick = onSettingsClick,
             )
         },
@@ -183,7 +187,10 @@ fun ToolEntryScreen(
             } else {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     PdfWorkSession.recentEntries.take(3).forEach { file ->
-                        RecentFileRow(file = file)
+                        RecentFileRow(
+                            file = file,
+                            onClick = { openRecentFile(context, file.outputUri, file.name, isImage = file.operation == RecentFile.OP_PDF_TO_JPG) },
+                        )
                     }
                 }
             }
