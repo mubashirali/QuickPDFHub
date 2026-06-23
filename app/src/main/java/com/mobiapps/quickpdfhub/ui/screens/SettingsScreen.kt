@@ -99,7 +99,7 @@ fun SettingsScreen(
                     onClick = {
                         openUrl(
                             context,
-                            "https://play.google.com/store/apps/details?id=${context.packageName}",
+                            "https://docs.google.com/document/d/10-CJMcAz9kCtdFFia1Po4TAk40YdTrdZMh3cgjHuevk/edit?tab=t.0",
                         )
                     },
                 )
