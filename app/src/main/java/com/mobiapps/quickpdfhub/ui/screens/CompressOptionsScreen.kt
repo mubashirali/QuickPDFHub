@@ -32,6 +32,7 @@ fun CompressOptionsScreen(
             QuickPdfTopBar(
                 title = "Compress PDF",
                 onSettingsClick = onSettingsClick,
+                showSearch = false,
             )
         },
         bottomBar = {

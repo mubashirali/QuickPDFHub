@@ -88,6 +88,7 @@ fun ToolEntryScreen(
             QuickPdfTopBar(
                 title = toolType.label,
                 onSettingsClick = onSettingsClick,
+                showSearch = false,
             )
         },
         containerColor = MaterialTheme.colorScheme.background,

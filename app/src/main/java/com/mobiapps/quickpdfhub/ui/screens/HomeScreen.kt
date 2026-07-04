@@ -9,6 +9,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Article
+import androidx.compose.material.icons.automirrored.outlined.CallSplit
+import androidx.compose.material.icons.automirrored.outlined.MergeType
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.*
@@ -37,17 +40,17 @@ private data class ToolCard(
 )
 
 private val primaryTools = listOf(
-    ToolCard(ToolType.MERGE, Icons.Outlined.MergeType),
-    ToolCard(ToolType.SPLIT, Icons.Outlined.CallSplit),
+    ToolCard(ToolType.MERGE, Icons.AutoMirrored.Outlined.MergeType),
+    ToolCard(ToolType.SPLIT, Icons.AutoMirrored.Outlined.CallSplit),
     ToolCard(ToolType.COMPRESS, Icons.Outlined.Compress),
     ToolCard(ToolType.PDF_TO_JPG, Icons.Outlined.Image),
     ToolCard(ToolType.JPG_TO_PDF, Icons.Outlined.PictureAsPdf),
+    ToolCard(ToolType.DOCX_TO_PDF, Icons.AutoMirrored.Outlined.Article),
 )
 
 private val moreTools = listOf(
     ToolCard(ToolType.REORDER, Icons.Outlined.SwapVert),
     ToolCard(ToolType.DELETE, Icons.Outlined.DeleteOutline),
-    ToolCard(ToolType.DOCX_TO_PDF, Icons.Outlined.Description),
     ToolCard(ToolType.PDF_TO_DOCX, Icons.Outlined.TextSnippet),
 )
 
@@ -96,11 +99,14 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 rows.forEach { rowTools ->
-                    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Row(
+                        modifier = Modifier.height(IntrinsicSize.Max),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
                         rowTools.forEach { toolCard ->
                             HomeToolCard(
                                 toolCard = toolCard,
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier.weight(1f).fillMaxHeight(),
                                 onClick = { onToolClick(toolCard.tool) },
                             )
                         }
@@ -139,13 +145,13 @@ fun HomeScreen(
                         Spacer(Modifier.height(8.dp))
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Max),
                         ) {
                             moreTools.forEach { toolCard ->
                                 MoreToolChip(
-                                    label = toolCard.tool.label.replace(" ", "\n"),
+                                    label = toolCard.tool.label.replace(" → ", "→").replace(" ", "\n"),
                                     onClick = { onToolClick(toolCard.tool) },
-                                    modifier = Modifier.weight(1f),
+                                    modifier = Modifier.weight(1f).fillMaxHeight(),
                                 )
                             }
                         }
@@ -265,7 +271,7 @@ private fun MoreToolChip(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        modifier = modifier.clickable(onClick = onClick),
+        modifier = modifier.fillMaxHeight().clickable(onClick = onClick),
         shape = RoundedCornerShape(10.dp),
         color = MaterialTheme.colorScheme.surfaceVariant,
         tonalElevation = 0.dp,

@@ -42,6 +42,7 @@ fun UpgradeScreen(
             QuickPdfTopBar(
                 title = "QuickPDF Hub",
                 onSettingsClick = onSettingsClick,
+                showSearch = false,
             )
         },
         containerColor = MaterialTheme.colorScheme.background,

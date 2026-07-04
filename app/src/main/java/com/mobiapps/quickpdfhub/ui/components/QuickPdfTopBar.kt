@@ -25,6 +25,7 @@ fun QuickPdfTopBar(
     onBackClick: (() -> Unit)? = null,
     onSearchClick: () -> Unit = {},
     onSettingsClick: () -> Unit = {},
+    showSearch: Boolean = true,
 ) {
     if (onBackClick != null) {
         TopAppBar(
@@ -58,8 +59,10 @@ fun QuickPdfTopBar(
                 }
             },
             actions = {
-                IconButton(onClick = onSearchClick) {
-                    Icon(Icons.Outlined.Search, contentDescription = "Search")
+                if (showSearch) {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(Icons.Outlined.Search, contentDescription = "Search")
+                    }
                 }
                 IconButton(onClick = onSettingsClick) {
                     Icon(Icons.Outlined.Settings, contentDescription = "Settings")
