@@ -14,8 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +33,7 @@ fun QuickPdfTopBar(
         TopAppBar(
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
+                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.topbar_back))
                 }
             },
             title = {
@@ -61,11 +63,11 @@ fun QuickPdfTopBar(
             actions = {
                 if (showSearch) {
                     IconButton(onClick = onSearchClick) {
-                        Icon(Icons.Outlined.Search, contentDescription = "Search")
+                        Icon(Icons.Outlined.Search, contentDescription = stringResource(R.string.topbar_search))
                     }
                 }
                 IconButton(onClick = onSettingsClick) {
-                    Icon(Icons.Outlined.Settings, contentDescription = "Settings")
+                    Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.topbar_settings))
                 }
             },
             colors = TopAppBarDefaults.topAppBarColors(

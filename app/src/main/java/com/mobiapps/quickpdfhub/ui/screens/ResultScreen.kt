@@ -26,9 +26,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.domain.formatBytes
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
@@ -50,9 +52,9 @@ fun ResultScreen(
     val isSplitResult = !isImageResult && (result?.outputUris?.size ?: 0) > 1
 
     val title = when {
-        isImageResult -> "Images ready"
-        isSplitResult -> "PDF split"
-        else -> "PDF ready"
+        isImageResult -> stringResource(R.string.result_title_images_ready)
+        isSplitResult -> stringResource(R.string.result_title_pdf_split)
+        else -> stringResource(R.string.result_title_pdf_ready)
     }
     val subtitle = when {
         isImageResult -> "${result?.pageCount} page${if ((result?.pageCount ?: 0) == 1) "" else "s"} exported as JPEG"
@@ -63,7 +65,7 @@ fun ResultScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "QuickPDF",
+                title = stringResource(R.string.app_name),
                 onBackClick = onGoHome,
             )
         },
@@ -153,7 +155,7 @@ fun ResultScreen(
                                     color = BrandTeal,
                                 )
                                 Text(
-                                    text = "Pages",
+                                    text = stringResource(R.string.result_label_pages),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -172,7 +174,7 @@ fun ResultScreen(
                                     fontWeight = FontWeight.Bold,
                                 )
                                 Text(
-                                    text = "Total size",
+                                    text = stringResource(R.string.result_label_total_size),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -196,7 +198,7 @@ fun ResultScreen(
                                     fontWeight = FontWeight.Bold,
                                 )
                                 Text(
-                                    text = "Before",
+                                    text = stringResource(R.string.result_label_before),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -216,7 +218,7 @@ fun ResultScreen(
                                     color = afterColor,
                                 )
                                 Text(
-                                    text = "After",
+                                    text = stringResource(R.string.result_label_after),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 )
@@ -331,12 +333,12 @@ fun ResultScreen(
                                 }
                             }
                             val msg = if (isImageResult && urisToSave.size > 1)
-                                "Saved ${urisToSave.size} images to Gallery"
-                            else if (isImageResult) "Saved image to Gallery"
-                            else "Saved to Downloads"
+                                context.getString(R.string.result_save_multiple_images, urisToSave.size)
+                            else if (isImageResult) context.getString(R.string.result_save_single_image)
+                            else context.getString(R.string.result_save_pdf)
                             Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                         } catch (e: Exception) {
-                            Toast.makeText(context, "Save failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.result_save_failed, e.message), Toast.LENGTH_SHORT).show()
                         }
                     },
                     shape = RoundedCornerShape(12.dp),
@@ -344,7 +346,7 @@ fun ResultScreen(
                         .weight(1f)
                         .height(52.dp),
                 ) {
-                    Icon(Icons.Outlined.SaveAlt, contentDescription = "Save")
+                    Icon(Icons.Outlined.SaveAlt, contentDescription = stringResource(R.string.result_icon_save))
                 }
 
                 // Open
@@ -361,7 +363,7 @@ fun ResultScreen(
                         } catch (e: ActivityNotFoundException) {
                             Toast.makeText(
                                 context,
-                                "No app found to open this file.",
+                                context.getString(R.string.result_no_app_found),
                                 Toast.LENGTH_LONG,
                             ).show()
                         }
@@ -371,7 +373,7 @@ fun ResultScreen(
                         .weight(1.5f)
                         .height(52.dp),
                 ) {
-                    Text("Open")
+                    Text(stringResource(R.string.result_button_open))
                 }
             }
 
@@ -383,7 +385,7 @@ fun ResultScreen(
                 shape = RoundedCornerShape(28.dp),
             ) {
                 Text(
-                    text = "Do another action",
+                    text = stringResource(R.string.result_button_do_another),
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }

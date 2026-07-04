@@ -22,10 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.navigation.ToolType
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
@@ -101,15 +103,22 @@ fun PageThumbnailScreen(
     }
 
     val buttonLabel = when (toolType) {
-        ToolType.SPLIT -> "Split after page $splitAfterPage"
-        ToolType.DELETE -> "Delete ${keepPage.count { !it }} page${if (keepPage.count { !it } == 1) "" else "s"}"
-        ToolType.REORDER -> "Apply new order"
-        else -> "Process"
+        ToolType.SPLIT -> {
+            val context = LocalContext.current
+            context.getString(R.string.page_thumbnail_split_button, splitAfterPage)
+        }
+        ToolType.DELETE -> {
+            val context = LocalContext.current
+            val deleteCount = keepPage.count { !it }
+            context.getString(R.string.page_thumbnail_delete_button, deleteCount, if (deleteCount == 1) "" else "s")
+        }
+        ToolType.REORDER -> stringResource(R.string.page_thumbnail_reorder_button)
+        else -> stringResource(R.string.page_thumbnail_process_button)
     }
 
     Scaffold(
         topBar = {
-            QuickPdfTopBar(title = toolType.label, onSettingsClick = onSettingsClick, showSearch = false)
+            QuickPdfTopBar(title = stringResource(toolType.labelRes), onSettingsClick = onSettingsClick, showSearch = false)
         },
         bottomBar = {
             Surface(shadowElevation = 8.dp) {
@@ -168,8 +177,8 @@ private fun PageGrid(
     onSetSplit: (Int) -> Unit,
     innerPadding: PaddingValues,
 ) {
-    val hint = if (toolType == ToolType.SPLIT) "Tap a page to split after it"
-               else "Tap pages to mark for deletion"
+    val hint = if (toolType == ToolType.SPLIT) stringResource(R.string.page_thumbnail_split_hint)
+               else stringResource(R.string.page_thumbnail_delete_hint)
     val isSplit = toolType == ToolType.SPLIT
 
     LazyVerticalGrid(
@@ -245,6 +254,7 @@ private fun PageGrid(
 
 @Composable
 private fun SplitDivider(splitAfterPage: Int) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -258,7 +268,7 @@ private fun SplitDivider(splitAfterPage: Int) {
             color = BrandTeal,
         ) {
             Text(
-                text = "✂  Split after page $splitAfterPage",
+                text = context.getString(R.string.page_thumbnail_split_divider, splitAfterPage),
                 color = androidx.compose.ui.graphics.Color.White,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -298,7 +308,7 @@ private fun PageCell(
             if (thumbnail != null) {
                 Image(
                     bitmap = thumbnail.asImageBitmap(),
-                    contentDescription = "Page $pageNumber",
+                    contentDescription = stringResource(R.string.page_thumbnail_content_description, pageNumber),
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(4.dp)
@@ -342,7 +352,7 @@ private fun PageCell(
                         .fillMaxWidth(),
                 ) {
                     Text(
-                        text = "Split here",
+                        text = stringResource(R.string.page_thumbnail_split_here),
                         fontSize = 11.sp,
                         color = androidx.compose.ui.graphics.Color.White,
                         fontWeight = FontWeight.SemiBold,
@@ -371,7 +381,7 @@ private fun ReorderPagesList(
     ) {
         item {
             Text(
-                text = "Use arrows to reorder pages",
+                text = stringResource(R.string.page_thumbnail_reorder_hint),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(vertical = 4.dp),
@@ -412,12 +422,12 @@ private fun ReorderPagesList(
 
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = "Page ${originalIndex + 1}",
+                            text = stringResource(R.string.page_thumbnail_page_num, originalIndex + 1),
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.SemiBold,
                         )
                         Text(
-                            text = "Position ${pos + 1}",
+                            text = stringResource(R.string.page_thumbnail_position, pos + 1),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -436,7 +446,7 @@ private fun ReorderPagesList(
                         ) {
                             Icon(
                                 Icons.Outlined.ArrowUpward,
-                                contentDescription = "Move up",
+                                contentDescription = stringResource(R.string.page_thumbnail_move_up),
                                 tint = if (pos > 0) BrandTeal else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                             )
                         }
@@ -452,7 +462,7 @@ private fun ReorderPagesList(
                         ) {
                             Icon(
                                 Icons.Outlined.ArrowDownward,
-                                contentDescription = "Move down",
+                                contentDescription = stringResource(R.string.page_thumbnail_move_down),
                                 tint = if (pos < pageOrder.size - 1) BrandTeal else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                             )
                         }

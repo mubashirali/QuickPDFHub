@@ -5,18 +5,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 
-private data class QualityOption(val label: String, val description: String, val quality: Int)
+private data class QualityOption(val labelRes: Int, val descriptionRes: Int, val quality: Int)
 
 private val qualityOptions = listOf(
-    QualityOption("Low compression", "Preserves quality, larger file", 90),
-    QualityOption("Medium compression", "Balanced quality and size", 65),
-    QualityOption("High compression", "Smallest file, reduced quality", 35),
+    QualityOption(R.string.compress_options_low, R.string.compress_options_low_description, 90),
+    QualityOption(R.string.compress_options_medium, R.string.compress_options_medium_description, 65),
+    QualityOption(R.string.compress_options_high, R.string.compress_options_high_description, 35),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +32,7 @@ fun CompressOptionsScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "Compress PDF",
+                title = stringResource(R.string.compress_options_title),
                 onSettingsClick = onSettingsClick,
                 showSearch = false,
             )
@@ -49,7 +51,7 @@ fun CompressOptionsScreen(
                         .padding(16.dp)
                         .height(52.dp),
                 ) {
-                    Text("Continue", fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.compress_options_continue), fontWeight = FontWeight.SemiBold)
                 }
             }
         },
@@ -63,13 +65,13 @@ fun CompressOptionsScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Text(
-                text = "Compression quality",
+                text = stringResource(R.string.compress_options_label),
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.Bold,
             )
 
             Text(
-                text = "Choose how much to compress your PDF. Lower quality produces a smaller file.",
+                text = stringResource(R.string.compress_options_description),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -95,13 +97,13 @@ fun CompressOptionsScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = option.label,
+                                text = stringResource(option.labelRes),
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
                                 color = if (isSelected) BrandTeal else MaterialTheme.colorScheme.onSurface,
                             )
                             Text(
-                                text = option.description,
+                                text = stringResource(option.descriptionRes),
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                             )

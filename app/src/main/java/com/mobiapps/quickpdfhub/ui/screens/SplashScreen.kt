@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 import kotlinx.coroutines.delay
 
@@ -50,7 +52,7 @@ fun SplashScreen(onFinished: () -> Unit) {
             Spacer(Modifier.height(24.dp))
 
             Text(
-                text = "QuickPDF Hub",
+                text = stringResource(R.string.splash_title),
                 style = MaterialTheme.typography.displayLarge,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.onBackground,
@@ -59,7 +61,7 @@ fun SplashScreen(onFinished: () -> Unit) {
             Spacer(Modifier.height(8.dp))
 
             Text(
-                text = "PDF tools ready instantly",
+                text = stringResource(R.string.splash_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

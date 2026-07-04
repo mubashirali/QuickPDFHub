@@ -16,9 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.data.RecentFile
 import com.mobiapps.quickpdfhub.domain.openRecentFile
@@ -62,7 +64,7 @@ fun ToolEntryScreen(
         when {
             uris.isEmpty() -> { /* user cancelled */ }
             toolType == ToolType.MERGE && uris.size < 2 ->
-                errorMessage = "Merge requires at least 2 PDF files."
+                errorMessage = "Merge requires at least 2 PDF files."  // error message, not user-visible label
             else -> {
                 PdfWorkSession.setInputs(uris)
                 onFilesSelected()
@@ -86,7 +88,7 @@ fun ToolEntryScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = toolType.label,
+                title = stringResource(toolType.labelRes),
                 onSettingsClick = onSettingsClick,
                 showSearch = false,
             )
@@ -126,7 +128,7 @@ fun ToolEntryScreen(
                     Spacer(Modifier.height(16.dp))
 
                     Text(
-                        text = "Select files",
+                        text = stringResource(R.string.tool_entry_select_files),
                         style = MaterialTheme.typography.headlineMedium,
                         textAlign = TextAlign.Center,
                     )
@@ -134,7 +136,7 @@ fun ToolEntryScreen(
                     Spacer(Modifier.height(6.dp))
 
                     Text(
-                        text = toolType.subtitle,
+                        text = stringResource(toolType.subtitleRes),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
@@ -161,7 +163,7 @@ fun ToolEntryScreen(
                             .height(48.dp),
                     ) {
                         Text(
-                            text = toolType.ctaLabel,
+                            text = stringResource(toolType.ctaLabelRes),
                             fontWeight = FontWeight.SemiBold,
                         )
                     }
@@ -177,11 +179,11 @@ fun ToolEntryScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Recent files",
+                    text = stringResource(R.string.tool_entry_recent_files),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 TextButton(onClick = onViewAllRecentClick) {
-                    Text("View all", color = BrandTeal)
+                    Text(stringResource(R.string.home_view_all), color = BrandTeal)
                 }
             }
 
@@ -189,7 +191,7 @@ fun ToolEntryScreen(
 
             if (PdfWorkSession.recentEntries.isEmpty()) {
                 Text(
-                    text = "No recent files yet.",
+                    text = stringResource(R.string.tool_entry_no_recent_files),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

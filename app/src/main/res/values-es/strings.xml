@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuickPDF Hub</string>
+
+    <!-- Tool names and labels -->
+    <string name="tool_merge_label">Combinar PDF</string>
+    <string name="tool_split_label">Dividir PDF</string>
+    <string name="tool_compress_label">Comprimir PDF</string>
+    <string name="tool_pdf_to_jpg_label">PDF → JPG</string>
+    <string name="tool_jpg_to_pdf_label">JPG → PDF</string>
+    <string name="tool_reorder_label">Reordenar páginas</string>
+    <string name="tool_delete_label">Eliminar páginas</string>
+    <string name="tool_docx_to_pdf_label">DOCX → PDF</string>
+    <string name="tool_pdf_to_docx_label">PDF → DOCX</string>
+
+    <!-- Tool subtitles -->
+    <string name="tool_merge_subtitle">Combina múltiples PDFs</string>
+    <string name="tool_split_subtitle">Divide un único PDF</string>
+    <string name="tool_compress_subtitle">Reduce el tamaño sin perder calidad</string>
+    <string name="tool_pdf_to_jpg_subtitle">Exporta cada página como imagen nítida</string>
+    <string name="tool_jpg_to_pdf_subtitle">Combina imágenes en un PDF limpio</string>
+    <string name="tool_reorder_subtitle">Arrastra páginas para reordenar</string>
+    <string name="tool_delete_subtitle">Elimina páginas no deseadas</string>
+    <string name="tool_docx_to_pdf_subtitle">Convierte documento Word a PDF</string>
+    <string name="tool_pdf_to_docx_subtitle">Extrae contenido de PDF a Word</string>
+
+    <!-- Tool CTA labels -->
+    <string name="tool_merge_cta">Elige PDFs</string>
+    <string name="tool_split_cta">Elige PDF</string>
+    <string name="tool_compress_cta">Elige PDF</string>
+    <string name="tool_pdf_to_jpg_cta">Elige PDF</string>
+    <string name="tool_jpg_to_pdf_cta">Elige imágenes</string>
+    <string name="tool_reorder_cta">Elige PDF</string>
+    <string name="tool_delete_cta">Elige PDF</string>
+    <string name="tool_docx_to_pdf_cta">Elige DOCX</string>
+    <string name="tool_pdf_to_docx_cta">Elige PDF</string>
+
+    <!-- Home screen -->
+    <string name="home_title">QuickPDF Hub</string>
+    <string name="home_more_tools">Más herramientas</string>
+    <string name="home_recent_files">Archivos recientes</string>
+    <string name="home_view_all">Ver todo</string>
+    <string name="home_no_recent_files">Sin archivos recientes aún</string>
+    <string name="home_no_recent_files_description">Elige una herramienta arriba para empezar.</string>
+    <string name="home_processed_on_device">Procesado en tu dispositivo</string>
+
+    <!-- Tool Entry screen -->
+    <string name="tool_entry_select_files">Selecciona archivos</string>
+    <string name="tool_entry_recent_files">Archivos recientes</string>
+    <string name="tool_entry_no_recent_files">Sin archivos recientes aún.</string>
+    <string name="tool_entry_merge_error">Combinar requiere al menos 2 archivos PDF.</string>
+
+    <!-- Processing screen -->
+    <string name="processing_title">Procesando tu PDF…</string>
+    <string name="processing_subtitle">Esto permanece en tu dispositivo.</string>
+    <string name="processing_cancel">Cancelar</string>
+
+    <!-- Result screen -->
+    <string name="result_title_images_ready">Imágenes listas</string>
+    <string name="result_title_pdf_split">PDF dividido</string>
+    <string name="result_title_pdf_ready">PDF listo</string>
+    <string name="result_subtitle_images">%d página%s exportada como JPEG</string>
+    <string name="result_subtitle_split">Dividido en %d partes</string>
+    <string name="result_label_pages">Páginas</string>
+    <string name="result_label_total_size">Tamaño total</string>
+    <string name="result_label_before">Antes</string>
+    <string name="result_label_after">Después</string>
+    <string name="result_button_open">Abrir</string>
+    <string name="result_button_do_another">Hacer otra acción</string>
+    <string name="result_save_multiple_images">Se guardaron %d imágenes en la galería</string>
+    <string name="result_save_single_image">Imagen guardada en la galería</string>
+    <string name="result_save_pdf">Guardado en Descargas</string>
+    <string name="result_save_failed">Error al guardar: %s</string>
+    <string name="result_no_app_found">No se encontró app para abrir este archivo.</string>
+
+    <!-- Error screen -->
+    <string name="error_title_default">No pudimos abrir ese archivo</string>
+    <string name="error_body_default">Podría estar corrupto o en un formato no compatible.</string>
+    <string name="error_try_again">Intentar de nuevo</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">Configuración</string>
+    <string name="settings_dark_mode">Modo oscuro</string>
+    <string name="settings_clear_cache">Limpiar caché</string>
+    <string name="settings_about">Acerca de</string>
+    <string name="settings_privacy_policy">Política de privacidad</string>
+    <string name="settings_rate_app">Califica esta app</string>
+    <string name="settings_clear_cache_dialog_title">Limpiar caché</string>
+    <string name="settings_clear_cache_dialog_message">Se eliminarán todos los archivos temporales creados por QuickPDF. Esta acción no se puede deshacer.</string>
+    <string name="settings_clear_cache_dialog_clear">Limpiar</string>
+    <string name="settings_clear_cache_dialog_cancel">Cancelar</string>
+    <string name="settings_about_dialog_title">QuickPDF Hub</string>
+    <string name="settings_about_dialog_version">Versión %s</string>
+    <string name="settings_about_dialog_message">Todas las operaciones de PDF se ejecutan completamente en tu dispositivo. Ningún archivo se sube a servidor alguno.</string>
+    <string name="settings_about_dialog_ok">OK</string>
+    <string name="settings_cache_cleared">Caché limpiado</string>
+    <string name="settings_cache_clear_failed">No se pudo limpiar el caché</string>
+    <string name="settings_no_browser_found">No se encontró navegador</string>
+
+    <!-- Recent Files screen -->
+    <string name="recent_files_title">Archivos recientes</string>
+    <string name="recent_files_search_placeholder">Buscar archivos…</string>
+    <string name="recent_files_close_search">Cerrar búsqueda</string>
+    <string name="recent_files_not_found">No se encontraron archivos</string>
+
+    <!-- Compress Options screen -->
+    <string name="compress_options_title">Comprimir PDF</string>
+    <string name="compress_options_label">Calidad de compresión</string>
+    <string name="compress_options_description">Elige cuánto comprimir tu PDF. Menor calidad produce un archivo más pequeño.</string>
+    <string name="compress_options_low">Compresión baja</string>
+    <string name="compress_options_low_description">Preserva la calidad, archivo más grande</string>
+    <string name="compress_options_medium">Compresión media</string>
+    <string name="compress_options_medium_description">Calidad y tamaño equilibrados</string>
+    <string name="compress_options_high">Compresión alta</string>
+    <string name="compress_options_high_description">Archivo más pequeño, calidad reducida</string>
+    <string name="compress_options_continue">Continuar</string>
+
+    <!-- Page Thumbnail screen -->
+    <string name="page_thumbnail_split_hint">Toca una página para dividir después de ella</string>
+    <string name="page_thumbnail_delete_hint">Toca páginas para marcarlas para eliminar</string>
+    <string name="page_thumbnail_reorder_hint">Usa las flechas para reordenar páginas</string>
+    <string name="page_thumbnail_split_button">Dividir después de página %d</string>
+    <string name="page_thumbnail_delete_button">Eliminar %d página%s</string>
+    <string name="page_thumbnail_reorder_button">Aplicar nuevo orden</string>
+    <string name="page_thumbnail_process_button">Procesar</string>
+    <string name="page_thumbnail_split_divider">✂  Dividir después de página %d</string>
+    <string name="page_thumbnail_split_here">Dividir aquí</string>
+    <string name="page_thumbnail_page_num">Página %d</string>
+    <string name="page_thumbnail_position">Posición %d</string>
+    <string name="page_thumbnail_move_up">Mover arriba</string>
+    <string name="page_thumbnail_move_down">Mover abajo</string>
+    <string name="page_thumbnail_content_description">Página %d</string>
+
+    <!-- Permission Rationale screen -->
+    <string name="permission_rationale_title">Permitir acceso a archivos</string>
+    <string name="permission_rationale_description">QuickPDF necesita permiso para que puedas elegir, guardar y compartir PDFs. El procesamiento se realiza en tu dispositivo.</string>
+    <string name="permission_rationale_continue">Continuar</string>
+
+    <!-- Upgrade screen -->
+    <string name="upgrade_title">QuickPDF Pro</string>
+    <string name="upgrade_subtitle">Procesamiento por lotes, sin anuncios, sin límite de tamaño.</string>
+    <string name="upgrade_feature_label">Función</string>
+    <string name="upgrade_feature_free">Gratis</string>
+    <string name="upgrade_feature_pro">Pro</string>
+    <string name="upgrade_feature_ads">Anuncios eliminados</string>
+    <string name="upgrade_feature_ads_free">Limitado</string>
+    <string name="upgrade_feature_batch">Procesamiento por lotes</string>
+    <string name="upgrade_feature_size_cap">Sin límite de tamaño</string>
+    <string name="upgrade_feature_priority">Herramientas prioritarias</string>
+    <string name="upgrade_included">Incluido</string>
+    <string name="upgrade_subscribe">$19.99 / year</string>
+
+    <!-- Splash screen -->
+    <string name="splash_title">QuickPDF Hub</string>
+    <string name="splash_subtitle">Herramientas PDF listas al instante</string>
+
+    <!-- Top Bar -->
+    <string name="topbar_back">Atrás</string>
+    <string name="topbar_search">Buscar</string>
+    <string name="topbar_settings">Configuración</string>
+
+    <!-- Result Screen Icons -->
+    <string name="result_icon_share">Compartir</string>
+    <string name="result_icon_save">Guardar</string>
+</resources>

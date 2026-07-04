@@ -22,8 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.data.RecentFile
 import com.mobiapps.quickpdfhub.domain.openRecentFile
@@ -74,7 +76,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "QuickPDF Hub",
+                title = stringResource(R.string.app_name),
                 onSearchClick = onSearchClick,
                 onSettingsClick = onSettingsClick,
             )
@@ -106,7 +108,9 @@ fun HomeScreen(
                         rowTools.forEach { toolCard ->
                             HomeToolCard(
                                 toolCard = toolCard,
-                                modifier = Modifier.weight(1f).fillMaxHeight(),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight(),
                                 onClick = { onToolClick(toolCard.tool) },
                             )
                         }
@@ -129,7 +133,7 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        text = "More tools",
+                        text = stringResource(R.string.home_more_tools),
                         style = MaterialTheme.typography.headlineSmall,
                     )
                     Icon(
@@ -149,9 +153,11 @@ fun HomeScreen(
                         ) {
                             moreTools.forEach { toolCard ->
                                 MoreToolChip(
-                                    label = toolCard.tool.label.replace(" → ", "→").replace(" ", "\n"),
+                                    label = stringResource(toolCard.tool.labelRes).replace(" → ", "→").replace(" ", "\n"),
                                     onClick = { onToolClick(toolCard.tool) },
-                                    modifier = Modifier.weight(1f).fillMaxHeight(),
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .fillMaxHeight(),
                                 )
                             }
                         }
@@ -170,11 +176,11 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Recent files",
+                    text = stringResource(R.string.home_recent_files),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 TextButton(onClick = onViewAllRecentClick) {
-                    Text("View all", color = BrandTeal)
+                    Text(stringResource(R.string.home_view_all), color = BrandTeal)
                 }
             }
 
@@ -222,7 +228,7 @@ private fun ProcessedOnDeviceBanner() {
         )
         Spacer(Modifier.width(6.dp))
         Text(
-            text = "Processed on your device",
+            text = stringResource(R.string.home_processed_on_device),
             style = MaterialTheme.typography.labelSmall,
             color = BannerTextLight,
         )
@@ -251,12 +257,12 @@ private fun HomeToolCard(
             )
             Spacer(Modifier.height(10.dp))
             Text(
-                text = toolCard.tool.label,
+                text = stringResource(toolCard.tool.labelRes),
                 style = MaterialTheme.typography.titleSmall,
             )
             Spacer(Modifier.height(2.dp))
             Text(
-                text = toolCard.tool.subtitle,
+                text = stringResource(toolCard.tool.subtitleRes),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -310,12 +316,12 @@ private fun EmptyRecentFiles() {
         }
         Spacer(Modifier.height(12.dp))
         Text(
-            text = "No recent files yet",
+            text = stringResource(R.string.home_no_recent_files),
             style = MaterialTheme.typography.headlineSmall,
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            text = "Pick a tool above to get started.",
+            text = stringResource(R.string.home_no_recent_files_description),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

@@ -11,10 +11,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.navigation.ToolType
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
@@ -46,7 +48,7 @@ fun ProcessingScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = ToolType.fromKey(toolType).label,
+                title = stringResource(ToolType.fromKey(toolType).labelRes),
                 onSettingsClick = onSettingsClick,
             )
         },
@@ -84,7 +86,7 @@ fun ProcessingScreen(
                 Spacer(Modifier.height(32.dp))
 
                 Text(
-                    text = "Processing your PDF…",
+                    text = stringResource(R.string.processing_title),
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
@@ -93,7 +95,7 @@ fun ProcessingScreen(
                 Spacer(Modifier.height(8.dp))
 
                 Text(
-                    text = "This stays on your device.",
+                    text = stringResource(R.string.processing_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
@@ -106,7 +108,7 @@ fun ProcessingScreen(
                     shape = RoundedCornerShape(28.dp),
                     modifier = Modifier.height(44.dp),
                 ) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.processing_cancel))
                 }
             }
         }

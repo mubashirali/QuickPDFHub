@@ -15,8 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.data.ThemeManager
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 
@@ -35,16 +37,16 @@ fun SettingsScreen(
     if (showClearCacheDialog) {
         AlertDialog(
             onDismissRequest = { showClearCacheDialog = false },
-            title = { Text("Clear cache") },
-            text = { Text("This will delete all temporary files created by QuickPDF. This cannot be undone.") },
+            title = { Text(stringResource(R.string.settings_clear_cache_dialog_title)) },
+            text = { Text(stringResource(R.string.settings_clear_cache_dialog_message)) },
             confirmButton = {
                 TextButton(onClick = {
                     showClearCacheDialog = false
                     clearAppCache(context)
-                }) { Text("Clear") }
+                }) { Text(stringResource(R.string.settings_clear_cache_dialog_clear)) }
             },
             dismissButton = {
-                TextButton(onClick = { showClearCacheDialog = false }) { Text("Cancel") }
+                TextButton(onClick = { showClearCacheDialog = false }) { Text(stringResource(R.string.settings_clear_cache_dialog_cancel)) }
             },
         )
     }
@@ -52,7 +54,7 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "Settings",
+                title = stringResource(R.string.settings_title),
                 onBackClick = onBack,
             )
         },
@@ -67,7 +69,7 @@ fun SettingsScreen(
             item {
                 SwitchSettingsRow(
                     icon = Icons.Outlined.DarkMode,
-                    label = "Dark mode",
+                    label = stringResource(R.string.settings_dark_mode),
                     checked = ThemeManager.isDarkMode,
                     onCheckedChange = { ThemeManager.setDarkMode(it) },
                 )
@@ -77,7 +79,7 @@ fun SettingsScreen(
             item {
                 ActionSettingsRow(
                     icon = Icons.Outlined.Delete,
-                    label = "Clear cache",
+                    label = stringResource(R.string.settings_clear_cache),
                     onClick = { showClearCacheDialog = true },
                 )
                 RowDivider()
@@ -86,7 +88,7 @@ fun SettingsScreen(
             item {
                 ActionSettingsRow(
                     icon = Icons.Outlined.Info,
-                    label = "About",
+                    label = stringResource(R.string.settings_about),
                     onClick = { showAboutDialog = true },
                 )
                 RowDivider()
@@ -95,7 +97,7 @@ fun SettingsScreen(
             item {
                 ActionSettingsRow(
                     icon = Icons.Outlined.Lock,
-                    label = "Privacy Policy",
+                    label = stringResource(R.string.settings_privacy_policy),
                     onClick = {
                         openUrl(
                             context,
@@ -109,7 +111,7 @@ fun SettingsScreen(
             item {
                 ActionSettingsRow(
                     icon = Icons.Outlined.Star,
-                    label = "Rate this app",
+                    label = stringResource(R.string.settings_rate_app),
                     onClick = { rateApp(context) },
                 )
             }
@@ -216,20 +218,20 @@ private fun AboutDialog(context: Context, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
-        title = { Text("QuickPDF Hub", fontWeight = FontWeight.SemiBold) },
+        title = { Text(stringResource(R.string.settings_about_dialog_title), fontWeight = FontWeight.SemiBold) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Text("Version $versionName")
+                Text(stringResource(R.string.settings_about_dialog_version, versionName))
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    "All PDF operations run entirely on your device. No files are uploaded to any server.",
+                    stringResource(R.string.settings_about_dialog_message),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss) { Text("OK") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.settings_about_dialog_ok)) }
         },
     )
 }
@@ -237,9 +239,9 @@ private fun AboutDialog(context: Context, onDismiss: () -> Unit) {
 private fun clearAppCache(context: Context) {
     try {
         context.cacheDir.listFiles()?.forEach { it.deleteRecursively() }
-        Toast.makeText(context, "Cache cleared", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.settings_cache_cleared), Toast.LENGTH_SHORT).show()
     } catch (e: Exception) {
-        Toast.makeText(context, "Could not clear cache", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.settings_cache_clear_failed), Toast.LENGTH_SHORT).show()
     }
 }
 
@@ -249,7 +251,7 @@ private fun openUrl(context: Context, url: String) {
             Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
         )
     } catch (e: ActivityNotFoundException) {
-        Toast.makeText(context, "No browser found", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, context.getString(R.string.settings_no_browser_found), Toast.LENGTH_SHORT).show()
     }
 }
 

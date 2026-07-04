@@ -18,8 +18,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.data.RecentFile
 import com.mobiapps.quickpdfhub.domain.openRecentFile
@@ -73,7 +75,7 @@ fun RecentFilesScreen(
                         TextField(
                             value = searchQuery,
                             onValueChange = { searchQuery = it },
-                            placeholder = { Text("Search files…") },
+                            placeholder = { Text(stringResource(R.string.recent_files_search_placeholder)) },
                             singleLine = true,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -94,7 +96,7 @@ fun RecentFilesScreen(
                             searchQuery = ""
                             focusManager.clearFocus()
                         }) {
-                            Icon(Icons.Outlined.Close, contentDescription = "Close search")
+                            Icon(Icons.Outlined.Close, contentDescription = stringResource(R.string.recent_files_close_search))
                         }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -103,7 +105,7 @@ fun RecentFilesScreen(
                 )
             } else {
                 QuickPdfTopBar(
-                    title = "Recent Files",
+                    title = stringResource(R.string.recent_files_title),
                     onSearchClick = { searchActive = true },
                     onSettingsClick = onSettingsClick,
                 )
@@ -158,7 +160,7 @@ fun RecentFilesScreen(
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
-                            text = "No files found",
+                            text = stringResource(R.string.recent_files_not_found),
                             style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

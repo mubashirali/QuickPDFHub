@@ -10,9 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 import com.mobiapps.quickpdfhub.ui.theme.ErrorContainer
@@ -21,15 +23,17 @@ import com.mobiapps.quickpdfhub.ui.theme.ErrorRed
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ErrorScreen(
-    title: String = "We couldn't open that file",
-    body: String = "It may be corrupted or an unsupported format.",
+    title: String? = null,
+    body: String? = null,
     onTryAgain: () -> Unit,
     onSettingsClick: () -> Unit,
 ) {
+    val displayTitle = title ?: stringResource(R.string.error_title_default)
+    val displayBody = body ?: stringResource(R.string.error_body_default)
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "QuickPDF",
+                title = stringResource(R.string.app_name),
                 onSettingsClick = onSettingsClick,
             )
         },
@@ -61,7 +65,7 @@ fun ErrorScreen(
                 Spacer(Modifier.height(24.dp))
 
                 Text(
-                    text = title,
+                    text = displayTitle,
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center,
@@ -70,7 +74,7 @@ fun ErrorScreen(
                 Spacer(Modifier.height(8.dp))
 
                 Text(
-                    text = body,
+                    text = displayBody,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
@@ -86,7 +90,7 @@ fun ErrorScreen(
                         .fillMaxWidth(0.6f)
                         .height(52.dp),
                 ) {
-                    Text("Try again", fontWeight = FontWeight.SemiBold)
+                    Text(stringResource(R.string.error_try_again), fontWeight = FontWeight.SemiBold)
                 }
             }
         }

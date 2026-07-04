@@ -12,23 +12,25 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.mobiapps.quickpdfhub.R
 import com.mobiapps.quickpdfhub.ui.components.QuickPdfTopBar
 import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 
 private data class FeatureRow(
-    val feature: String,
-    val free: String?,   // null = dash
+    val featureRes: Int,
+    val freeRes: Int?,   // null = dash
     val pro: Boolean,
 )
 
 private val features = listOf(
-    FeatureRow("Ads removed", "Limited", true),
-    FeatureRow("Batch processing", null, true),
-    FeatureRow("No size cap", null, true),
-    FeatureRow("Priority tools", null, true),
+    FeatureRow(R.string.upgrade_feature_ads, R.string.upgrade_feature_ads_free, true),
+    FeatureRow(R.string.upgrade_feature_batch, null, true),
+    FeatureRow(R.string.upgrade_feature_size_cap, null, true),
+    FeatureRow(R.string.upgrade_feature_priority, null, true),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +42,7 @@ fun UpgradeScreen(
     Scaffold(
         topBar = {
             QuickPdfTopBar(
-                title = "QuickPDF Hub",
+                title = stringResource(R.string.app_name),
                 onSettingsClick = onSettingsClick,
                 showSearch = false,
             )
@@ -65,7 +67,7 @@ fun UpgradeScreen(
             Spacer(Modifier.height(12.dp))
 
             Text(
-                text = "QuickPDF Pro",
+                text = stringResource(R.string.upgrade_title),
                 style = MaterialTheme.typography.displayLarge,
                 fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center,
@@ -74,7 +76,7 @@ fun UpgradeScreen(
             Spacer(Modifier.height(6.dp))
 
             Text(
-                text = "Batch power, no ads, no file-size cap.",
+                text = stringResource(R.string.upgrade_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -98,20 +100,20 @@ fun UpgradeScreen(
                             .padding(horizontal = 16.dp, vertical = 10.dp),
                     ) {
                         Text(
-                            "Feature",
+                            stringResource(R.string.upgrade_feature_label),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1.5f),
                         )
                         Text(
-                            "Free",
+                            stringResource(R.string.upgrade_feature_free),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center,
                         )
                         Text(
-                            "Pro",
+                            stringResource(R.string.upgrade_feature_pro),
                             style = MaterialTheme.typography.labelMedium,
                             fontWeight = FontWeight.Bold,
                             color = BrandTeal,
@@ -129,14 +131,14 @@ fun UpgradeScreen(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
-                                text = row.feature,
+                                text = stringResource(row.featureRes),
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.weight(1.5f),
                             )
                             Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                                if (row.free != null) {
+                                if (row.freeRes != null) {
                                     Text(
-                                        text = row.free,
+                                        text = stringResource(row.freeRes),
                                         style = MaterialTheme.typography.bodySmall,
                                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     )
@@ -152,7 +154,7 @@ fun UpgradeScreen(
                                 if (row.pro) {
                                     Icon(
                                         imageVector = Icons.Outlined.Check,
-                                        contentDescription = "Included",
+                                        contentDescription = stringResource(R.string.upgrade_included),
                                         tint = BrandTeal,
                                         modifier = Modifier.size(18.dp),
                                     )
@@ -181,7 +183,7 @@ fun UpgradeScreen(
                     .height(56.dp),
             ) {
                 Text(
-                    text = "\$19.99 / year",
+                    text = stringResource(R.string.upgrade_subscribe),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleMedium,
                 )

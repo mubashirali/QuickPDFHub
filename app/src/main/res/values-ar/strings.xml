@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QuickPDF Hub</string>
+
+    <!-- Tool names and labels -->
+    <string name="tool_merge_label">دمج PDF</string>
+    <string name="tool_split_label">تقسيم PDF</string>
+    <string name="tool_compress_label">ضغط PDF</string>
+    <string name="tool_pdf_to_jpg_label">PDF → JPG</string>
+    <string name="tool_jpg_to_pdf_label">JPG → PDF</string>
+    <string name="tool_reorder_label">إعادة ترتيب الصفحات</string>
+    <string name="tool_delete_label">حذف الصفحات</string>
+    <string name="tool_docx_to_pdf_label">DOCX → PDF</string>
+    <string name="tool_pdf_to_docx_label">PDF → DOCX</string>
+
+    <!-- Tool subtitles -->
+    <string name="tool_merge_subtitle">الدمج يدعم ملفات PDF متعددة</string>
+    <string name="tool_split_subtitle">التقسيم يدعم ملف PDF واحد</string>
+    <string name="tool_compress_subtitle">قلل حجم الملف مع الحفاظ على الجودة</string>
+    <string name="tool_pdf_to_jpg_subtitle">صدر كل صفحة كصورة واضحة</string>
+    <string name="tool_jpg_to_pdf_subtitle">اجمع الصور في ملف PDF نظيف</string>
+    <string name="tool_reorder_subtitle">اسحب الصفحات لإعادة ترتيبها</string>
+    <string name="tool_delete_subtitle">أزل الصفحات غير المرغوبة</string>
+    <string name="tool_docx_to_pdf_subtitle">حول مستند Word إلى PDF</string>
+    <string name="tool_pdf_to_docx_subtitle">استخرج محتوى PDF إلى Word</string>
+
+    <!-- Tool CTA labels -->
+    <string name="tool_merge_cta">اختر ملفات PDF</string>
+    <string name="tool_split_cta">اختر ملف PDF</string>
+    <string name="tool_compress_cta">اختر ملف PDF</string>
+    <string name="tool_pdf_to_jpg_cta">اختر ملف PDF</string>
+    <string name="tool_jpg_to_pdf_cta">اختر الصور</string>
+    <string name="tool_reorder_cta">اختر ملف PDF</string>
+    <string name="tool_delete_cta">اختر ملف PDF</string>
+    <string name="tool_docx_to_pdf_cta">اختر ملف DOCX</string>
+    <string name="tool_pdf_to_docx_cta">اختر ملف PDF</string>
+
+    <!-- Home screen -->
+    <string name="home_title">QuickPDF Hub</string>
+    <string name="home_more_tools">المزيد من الأدوات</string>
+    <string name="home_recent_files">الملفات الأخيرة</string>
+    <string name="home_view_all">عرض الكل</string>
+    <string name="home_no_recent_files">لا توجد ملفات أخيرة حتى الآن</string>
+    <string name="home_no_recent_files_description">اختر أداة أعلاه للبدء.</string>
+    <string name="home_processed_on_device">تمت معالجته على جهازك</string>
+
+    <!-- Tool Entry screen -->
+    <string name="tool_entry_select_files">اختر الملفات</string>
+    <string name="tool_entry_recent_files">الملفات الأخيرة</string>
+    <string name="tool_entry_no_recent_files">لا توجد ملفات أخيرة حتى الآن.</string>
+    <string name="tool_entry_merge_error">يتطلب الدمج ملفي PDF على الأقل.</string>
+
+    <!-- Processing screen -->
+    <string name="processing_title">جاري معالجة ملف PDF…</string>
+    <string name="processing_subtitle">يبقى هذا على جهازك.</string>
+    <string name="processing_cancel">إلغاء</string>
+
+    <!-- Result screen -->
+    <string name="result_title_images_ready">الصور جاهزة</string>
+    <string name="result_title_pdf_split">تم تقسيم PDF</string>
+    <string name="result_title_pdf_ready">PDF جاهز</string>
+    <string name="result_subtitle_images">تم تصدير %d صفحة%s كصورة JPEG</string>
+    <string name="result_subtitle_split">تم التقسيم إلى %d أجزاء</string>
+    <string name="result_label_pages">الصفحات</string>
+    <string name="result_label_total_size">الحجم الإجمالي</string>
+    <string name="result_label_before">قبل</string>
+    <string name="result_label_after">بعد</string>
+    <string name="result_button_open">فتح</string>
+    <string name="result_button_do_another">إجراء عملية أخرى</string>
+    <string name="result_save_multiple_images">تم حفظ %d صورة في المعرض</string>
+    <string name="result_save_single_image">تم حفظ الصورة في المعرض</string>
+    <string name="result_save_pdf">تم الحفظ في التنزيلات</string>
+    <string name="result_save_failed">فشل الحفظ: %s</string>
+    <string name="result_no_app_found">لم يتم العثور على تطبيق لفتح هذا الملف.</string>
+
+    <!-- Error screen -->
+    <string name="error_title_default">لم نتمكن من فتح هذا الملف</string>
+    <string name="error_body_default">قد يكون تالفًا أو بصيغة غير مدعومة.</string>
+    <string name="error_try_again">حاول مجددًا</string>
+
+    <!-- Settings screen -->
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="settings_clear_cache">مسح الذاكرة المؤقتة</string>
+    <string name="settings_about">حول</string>
+    <string name="settings_privacy_policy">سياسة الخصوصية</string>
+    <string name="settings_rate_app">قيم هذا التطبيق</string>
+    <string name="settings_clear_cache_dialog_title">مسح الذاكرة المؤقتة</string>
+    <string name="settings_clear_cache_dialog_message">سيؤدي هذا إلى حذف جميع الملفات المؤقتة التي أنشأها QuickPDF. لا يمكن التراجع عن هذا.</string>
+    <string name="settings_clear_cache_dialog_clear">مسح</string>
+    <string name="settings_clear_cache_dialog_cancel">إلغاء</string>
+    <string name="settings_about_dialog_title">QuickPDF Hub</string>
+    <string name="settings_about_dialog_version">الإصدار %s</string>
+    <string name="settings_about_dialog_message">تعمل جميع عمليات PDF بالكامل على جهازك. لا يتم تحميل أي ملفات على أي خادم.</string>
+    <string name="settings_about_dialog_ok">موافق</string>
+    <string name="settings_cache_cleared">تم مسح الذاكرة المؤقتة</string>
+    <string name="settings_cache_clear_failed">فشل مسح الذاكرة المؤقتة</string>
+    <string name="settings_no_browser_found">لم يتم العثور على متصفح</string>
+
+    <!-- Recent Files screen -->
+    <string name="recent_files_title">الملفات الأخيرة</string>
+    <string name="recent_files_search_placeholder">ابحث عن الملفات…</string>
+    <string name="recent_files_close_search">إغلاق البحث</string>
+    <string name="recent_files_not_found">لم يتم العثور على ملفات</string>
+
+    <!-- Compress Options screen -->
+    <string name="compress_options_title">ضغط PDF</string>
+    <string name="compress_options_label">جودة الضغط</string>
+    <string name="compress_options_description">اختر مقدار ضغط ملف PDF. جودة أقل تنتج ملفًا أصغر.</string>
+    <string name="compress_options_low">ضغط منخفض</string>
+    <string name="compress_options_low_description">يحافظ على الجودة، ملف أكبر</string>
+    <string name="compress_options_medium">ضغط متوسط</string>
+    <string name="compress_options_medium_description">توازن بين الجودة والحجم</string>
+    <string name="compress_options_high">ضغط عالي</string>
+    <string name="compress_options_high_description">أصغر ملف، جودة منخفضة</string>
+    <string name="compress_options_continue">متابعة</string>
+
+    <!-- Page Thumbnail screen -->
+    <string name="page_thumbnail_split_hint">اضغط على صفحة لتقسيمها بعدها</string>
+    <string name="page_thumbnail_delete_hint">اضغط على الصفحات لتحديدها للحذف</string>
+    <string name="page_thumbnail_reorder_hint">استخدم الأسهم لإعادة ترتيب الصفحات</string>
+    <string name="page_thumbnail_split_button">تقسيم بعد صفحة %d</string>
+    <string name="page_thumbnail_delete_button">حذف %d صفحة%s</string>
+    <string name="page_thumbnail_reorder_button">تطبيق الترتيب الجديد</string>
+    <string name="page_thumbnail_process_button">معالجة</string>
+    <string name="page_thumbnail_split_divider">✂  تقسيم بعد صفحة %d</string>
+    <string name="page_thumbnail_split_here">تقسيم هنا</string>
+    <string name="page_thumbnail_page_num">صفحة %d</string>
+    <string name="page_thumbnail_position">الموضع %d</string>
+    <string name="page_thumbnail_move_up">تحريك لأعلى</string>
+    <string name="page_thumbnail_move_down">تحريك لأسفل</string>
+    <string name="page_thumbnail_content_description">صفحة %d</string>
+
+    <!-- Permission Rationale screen -->
+    <string name="permission_rationale_title">السماح بالوصول إلى الملفات</string>
+    <string name="permission_rationale_description">يحتاج QuickPDF إلى إذن للسماح لك باختيار وحفظ ومشاركة ملفات PDF. المعالجة تبقى على الجهاز.</string>
+    <string name="permission_rationale_continue">متابعة</string>
+
+    <!-- Upgrade screen -->
+    <string name="upgrade_title">QuickPDF Pro</string>
+    <string name="upgrade_subtitle">معالجة دفعية، بدون إعلانات، بدون حد أقصى للحجم.</string>
+    <string name="upgrade_feature_label">الميزة</string>
+    <string name="upgrade_feature_free">مجاني</string>
+    <string name="upgrade_feature_pro">Pro</string>
+    <string name="upgrade_feature_ads">إزالة الإعلانات</string>
+    <string name="upgrade_feature_ads_free">محدود</string>
+    <string name="upgrade_feature_batch">معالجة دفعية</string>
+    <string name="upgrade_feature_size_cap">بدون حد أقصى للحجم</string>
+    <string name="upgrade_feature_priority">أدوات ذات أولوية</string>
+    <string name="upgrade_included">مشمول</string>
+    <string name="upgrade_subscribe">$19.99 / year</string>
+
+    <!-- Splash screen -->
+    <string name="splash_title">QuickPDF Hub</string>
+    <string name="splash_subtitle">أدوات PDF جاهزة فورًا</string>
+
+    <!-- Top Bar -->
+    <string name="topbar_back">رجوع</string>
+    <string name="topbar_search">بحث</string>
+    <string name="topbar_settings">الإعدادات</string>
+
+    <!-- Result Screen Icons -->
+    <string name="result_icon_share">مشاركة</string>
+    <string name="result_icon_save">حفظ</string>
+</resources>
