@@ -29,6 +29,10 @@ import com.mobiapps.quickpdfhub.ui.theme.BrandTeal
 
 private val PDF_MIME = arrayOf("application/pdf")
 private val IMAGE_MIME = arrayOf("image/*")
+private val DOCX_MIME = arrayOf(
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/msword",
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,7 +70,11 @@ fun ToolEntryScreen(
         }
     }
 
-    val mimeTypes = if (toolType == ToolType.JPG_TO_PDF) IMAGE_MIME else PDF_MIME
+    val mimeTypes = when (toolType) {
+        ToolType.JPG_TO_PDF -> IMAGE_MIME
+        ToolType.DOCX_TO_PDF -> DOCX_MIME
+        else -> PDF_MIME
+    }
 
     fun launchPicker() {
         errorMessage = null
