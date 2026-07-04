@@ -159,93 +159,96 @@ object DocxToPdf {
         val pageHeight = PDRectangle.A4.height
 
         val doc = PDDocument()
-        var page = PDPage(PDRectangle.A4)
-        doc.addPage(page)
-        var cs = PDPageContentStream(doc, page)
-        var y = pageHeight - marginTop
-
-        fun newPage() {
-            cs.close()
-            page = PDPage(PDRectangle.A4)
+        try {
+            var page = PDPage(PDRectangle.A4)
             doc.addPage(page)
-            cs = PDPageContentStream(doc, page)
-            y = pageHeight - marginTop
-        }
+            var cs = PDPageContentStream(doc, page)
+            var y = pageHeight - marginTop
 
-        fun font(bold: Boolean, italic: Boolean): PDType1Font = when {
-            bold && italic -> PDType1Font.HELVETICA_BOLD_OBLIQUE
-            bold -> PDType1Font.HELVETICA_BOLD
-            italic -> PDType1Font.HELVETICA_OBLIQUE
-            else -> PDType1Font.HELVETICA
-        }
-
-        fun safeText(s: String) = s.map { if (it.code in 32..255) it else '?' }.joinToString("")
-
-        fun strWidth(s: String, f: PDType1Font, size: Float) =
-            try { f.getStringWidth(s) / 1000f * size } catch (_: Exception) { s.length * size * 0.5f }
-
-        fun drawLine(tokens: List<Triple<String, PDType1Font, Float>>) {
-            val lineH = tokens.maxOfOrNull { it.third } ?: 11f
-            if (y - lineH * 1.4f < marginBottom) newPage()
-            var x = marginLeft
-            for ((word, f, size) in tokens) {
-                cs.beginText()
-                cs.setFont(f, size)
-                cs.newLineAtOffset(x, y)
-                cs.showText(safeText(word))
-                cs.endText()
-                x += strWidth(word, f, size)
+            fun newPage() {
+                runCatching { cs.close() }
+                page = PDPage(PDRectangle.A4)
+                doc.addPage(page)
+                cs = PDPageContentStream(doc, page)
+                y = pageHeight - marginTop
             }
-            y -= lineH * 1.4f
-        }
 
-        for (para in paragraphs) {
-            if (para.runs.isEmpty()) { y -= 8f; if (y < marginBottom) newPage(); continue }
-
-            val baseSize = when {
-                para.isHeading && para.headingLevel == 1 -> 20f
-                para.isHeading && para.headingLevel == 2 -> 16f
-                para.isHeading -> 14f
-                else -> 11f
+            fun font(bold: Boolean, italic: Boolean): PDType1Font = when {
+                bold && italic -> PDType1Font.HELVETICA_BOLD_OBLIQUE
+                bold -> PDType1Font.HELVETICA_BOLD
+                italic -> PDType1Font.HELVETICA_OBLIQUE
+                else -> PDType1Font.HELVETICA
             }
-            if (para.isHeading) { y -= 6f; if (y < marginBottom) newPage() }
 
-            data class Token(val word: String, val bold: Boolean, val italic: Boolean, val size: Float)
-            val tokens = mutableListOf<Token>()
-            for (run in para.runs) {
-                val size = if (run.fontSize > 0) run.fontSize else baseSize
-                val parts = run.text.split(" ")
-                parts.forEachIndexed { i, w ->
-                    if (w.isNotEmpty()) tokens.add(Token(w, run.bold, run.italic, size))
-                    if (i < parts.size - 1) tokens.add(Token(" ", run.bold, run.italic, size))
+            fun safeText(s: String) = s.map { if (it.code in 32..255) it else '?' }.joinToString("")
+
+            fun strWidth(s: String, f: PDType1Font, size: Float) =
+                try { f.getStringWidth(s) / 1000f * size } catch (_: Exception) { s.length * size * 0.5f }
+
+            fun drawLine(tokens: List<Triple<String, PDType1Font, Float>>) {
+                val lineH = tokens.maxOfOrNull { it.third } ?: 11f
+                if (y - lineH * 1.4f < marginBottom) newPage()
+                var x = marginLeft
+                for ((word, f, size) in tokens) {
+                    cs.beginText()
+                    cs.setFont(f, size)
+                    cs.newLineAtOffset(x, y)
+                    cs.showText(safeText(word))
+                    cs.endText()
+                    x += strWidth(word, f, size)
                 }
+                y -= lineH * 1.4f
             }
 
-            var lineTokens = mutableListOf<Triple<String, PDType1Font, Float>>()
-            var lineWidth = 0f
-            for (token in tokens) {
-                if (token.word == "\n") {
-                    drawLine(lineTokens)
-                    lineTokens = mutableListOf()
-                    lineWidth = 0f
-                    continue
+            for (para in paragraphs) {
+                if (para.runs.isEmpty()) { y -= 8f; if (y < marginBottom) newPage(); continue }
+
+                val baseSize = when {
+                    para.isHeading && para.headingLevel == 1 -> 20f
+                    para.isHeading && para.headingLevel == 2 -> 16f
+                    para.isHeading -> 14f
+                    else -> 11f
                 }
-                val f = font(token.bold, token.italic)
-                val w = strWidth(token.word, f, token.size)
-                if (lineWidth + w > pageWidth - marginRight && lineTokens.isNotEmpty()) {
-                    drawLine(lineTokens)
-                    lineTokens = mutableListOf()
-                    lineWidth = 0f
+                if (para.isHeading) { y -= 6f; if (y < marginBottom) newPage() }
+
+                data class Token(val word: String, val bold: Boolean, val italic: Boolean, val size: Float)
+                val tokens = mutableListOf<Token>()
+                for (run in para.runs) {
+                    val size = if (run.fontSize > 0) run.fontSize else baseSize
+                    val parts = run.text.split(" ")
+                    parts.forEachIndexed { i, w ->
+                        if (w.isNotEmpty()) tokens.add(Token(w, run.bold, run.italic, size))
+                        if (i < parts.size - 1) tokens.add(Token(" ", run.bold, run.italic, size))
+                    }
                 }
-                lineTokens.add(Triple(token.word, f, token.size))
-                lineWidth += w
+
+                var lineTokens = mutableListOf<Triple<String, PDType1Font, Float>>()
+                var lineWidth = 0f
+                for (token in tokens) {
+                    if (token.word == "\n") {
+                        drawLine(lineTokens)
+                        lineTokens = mutableListOf()
+                        lineWidth = 0f
+                        continue
+                    }
+                    val f = font(token.bold, token.italic)
+                    val w = strWidth(token.word, f, token.size)
+                    if (lineWidth + w > pageWidth - marginLeft - marginRight && lineTokens.isNotEmpty()) {
+                        drawLine(lineTokens)
+                        lineTokens = mutableListOf()
+                        lineWidth = 0f
+                    }
+                    lineTokens.add(Triple(token.word, f, token.size))
+                    lineWidth += w
+                }
+                if (lineTokens.isNotEmpty()) drawLine(lineTokens)
+                y -= if (para.isHeading) 4f else 2f
             }
-            if (lineTokens.isNotEmpty()) drawLine(lineTokens)
-            y -= if (para.isHeading) 4f else 2f
+
+            runCatching { cs.close() }
+            doc.save(outputFile)
+        } finally {
+            runCatching { doc.close() }
         }
-
-        cs.close()
-        doc.save(outputFile)
-        doc.close()
     }
 }
