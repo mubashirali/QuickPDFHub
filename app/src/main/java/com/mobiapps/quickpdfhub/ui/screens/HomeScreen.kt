@@ -47,6 +47,8 @@ private val primaryTools = listOf(
 private val moreTools = listOf(
     ToolCard(ToolType.REORDER, Icons.Outlined.SwapVert),
     ToolCard(ToolType.DELETE, Icons.Outlined.DeleteOutline),
+    ToolCard(ToolType.DOCX_TO_PDF, Icons.Outlined.Description),
+    ToolCard(ToolType.PDF_TO_DOCX, Icons.Outlined.TextSnippet),
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
