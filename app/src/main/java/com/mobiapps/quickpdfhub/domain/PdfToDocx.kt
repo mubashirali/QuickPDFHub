@@ -17,6 +17,7 @@ object PdfToDocx {
 
     suspend fun execute(context: Context, uri: Uri): WorkResult =
         withContext(Dispatchers.IO) {
+            var outputFile: File? = null
             try {
                 PDFBoxResourceLoader.init(context.applicationContext)
 
@@ -26,7 +27,7 @@ object PdfToDocx {
                 val displayName = displayNameOf(context, uri)
                 val baseName = displayName.removeSuffix(".pdf").removeSuffix(".PDF")
                 val outputFileName = "$baseName.docx"
-                val outputFile = File(context.cacheDir, outputFileName)
+                outputFile = File(context.cacheDir, outputFileName)
 
                 val text = context.contentResolver.openInputStream(uri)?.use { stream ->
                     PDDocument.load(stream).use { doc ->
@@ -49,6 +50,7 @@ object PdfToDocx {
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
+                runCatching { outputFile?.delete() }
                 WorkResult.Error(e.message ?: "PDF to DOCX conversion failed.")
             }
         }
