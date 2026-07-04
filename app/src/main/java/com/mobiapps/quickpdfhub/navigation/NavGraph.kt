@@ -1,6 +1,7 @@
 package com.mobiapps.quickpdfhub.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -10,10 +11,11 @@ import com.mobiapps.quickpdfhub.data.PdfWorkSession
 import com.mobiapps.quickpdfhub.ui.screens.*
 
 @Composable
-fun AppNavGraph(navController: NavHostController) {
+fun AppNavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController = navController,
         startDestination = Route.SPLASH,
+        modifier = modifier,
     ) {
         composable(Route.SPLASH) {
             SplashScreen(
@@ -52,7 +54,7 @@ fun AppNavGraph(navController: NavHostController) {
                 toolType = tool,
                 onFilesSelected = {
                     when (tool) {
-                        ToolType.COMPRESS ->
+                        ToolType.COMPRESS, ToolType.DOCX_TO_PDF, ToolType.PDF_TO_DOCX ->
                             navController.navigate(Route.processing(tool.name.lowercase()))
                         ToolType.PDF_TO_JPG, ToolType.JPG_TO_PDF, ToolType.MERGE ->
                             navController.navigate(Route.processing(tool.name.lowercase()))

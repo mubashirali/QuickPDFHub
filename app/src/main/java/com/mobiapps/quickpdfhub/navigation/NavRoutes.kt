@@ -27,7 +27,9 @@ enum class ToolType(val label: String, val subtitle: String, val ctaLabel: Strin
     PDF_TO_JPG("PDF → JPG", "Export each page as a crisp image", "Choose PDF"),
     JPG_TO_PDF("JPG → PDF", "Combine images into a clean PDF", "Choose Images"),
     REORDER("Reorder Pages", "Drag pages to reorder", "Choose PDF"),
-    DELETE("Delete Pages", "Remove unwanted pages", "Choose PDF");
+    DELETE("Delete Pages", "Remove unwanted pages", "Choose PDF"),
+    DOCX_TO_PDF("DOCX → PDF", "Convert Word document to PDF", "Choose DOCX"),
+    PDF_TO_DOCX("PDF → DOCX", "Extract PDF content to Word", "Choose PDF");
 
     companion object {
         fun fromKey(key: String) = entries.find { it.name.lowercase() == key.lowercase() } ?: MERGE
