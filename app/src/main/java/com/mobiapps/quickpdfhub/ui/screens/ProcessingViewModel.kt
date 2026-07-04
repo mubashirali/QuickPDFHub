@@ -15,6 +15,8 @@ import com.mobiapps.quickpdfhub.domain.MergePdf
 import com.mobiapps.quickpdfhub.domain.PdfToJpg
 import com.mobiapps.quickpdfhub.domain.ReorderPages
 import com.mobiapps.quickpdfhub.domain.SplitPdf
+import com.mobiapps.quickpdfhub.domain.DocxToPdf
+import com.mobiapps.quickpdfhub.domain.PdfToDocx
 import com.mobiapps.quickpdfhub.domain.WorkResult
 import com.mobiapps.quickpdfhub.domain.formatBytes
 import kotlinx.coroutines.CancellationException
@@ -88,6 +90,16 @@ class ProcessingViewModel(application: Application) : AndroidViewModel(applicati
                     }
                     ReorderPages.execute(ctx, uri, PdfWorkSession.reorderedPageIndices)
                 }
+                "docx_to_pdf" -> {
+                    val uri = PdfWorkSession.primaryInput
+                        ?: return@launch run { _state.value = State.Failed("No file selected.") }
+                    DocxToPdf.execute(ctx, uri)
+                }
+                "pdf_to_docx" -> {
+                    val uri = PdfWorkSession.primaryInput
+                        ?: return@launch run { _state.value = State.Failed("No file selected.") }
+                    PdfToDocx.execute(ctx, uri)
+                }
                 else -> WorkResult.Error("'$toolType' is not yet implemented.")
             }
 
@@ -158,6 +170,8 @@ class ProcessingViewModel(application: Application) : AndroidViewModel(applicati
         "reorder" -> "Reordered"
         "pdf_to_jpg" -> RecentFile.OP_PDF_TO_JPG
         "jpg_to_pdf" -> RecentFile.OP_JPG_TO_PDF
+        "docx_to_pdf" -> "DOCX → PDF"
+        "pdf_to_docx" -> "PDF → DOCX"
         else -> toolType.replaceFirstChar { it.uppercase() }
     }
 }
